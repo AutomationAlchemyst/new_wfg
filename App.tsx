@@ -90,6 +90,28 @@ export default function App() {
         });
       }
 
+      // Kinetic Typography Animations
+      const titles = document.querySelectorAll('.kinetic-title');
+      titles.forEach(title => {
+        gsap.fromTo(title, 
+          { y: 100, opacity: 0, skewY: 10 },
+          { 
+            y: 0, 
+            opacity: 1, 
+            skewY: 0,
+            duration: 1.2,
+            ease: "power4.out",
+            scrollTrigger: {
+              trigger: title,
+              start: "top 90%",
+              end: "top 50%",
+              scrub: false,
+              toggleActions: "play none none reverse"
+            }
+          }
+        );
+      });
+
     });
     
     return () => ctx.revert();
@@ -148,11 +170,10 @@ export default function App() {
           
           <div className="hero-anim">
             <RevealText delay={500}>
-              <div className="relative inline-block px-6 py-4 rounded-2xl bg-white/60 backdrop-blur-xl border border-white/40 shadow-sm mx-auto max-w-2xl">
-                <p className="text-lg md:text-2xl text-slate-800 font-semibold leading-relaxed">
-                  We engineer intelligent AI infrastructures that render busywork obsolete.
-                </p>
-              </div>
+              {/* Editorial Style: Pure Typography with Shadow */}
+              <p className="text-2xl md:text-4xl text-slate-900 font-extrabold max-w-3xl mx-auto leading-tight drop-shadow-md">
+                We engineer <span className="text-accent-primary">intelligent AI infrastructures</span> that render busywork <span className="text-accent-secondary">obsolete</span>.
+              </p>
             </RevealText>
           </div>
 
@@ -207,7 +228,7 @@ export default function App() {
       {/* --- Services (Bento Grid) --- */}
       <section id="services" ref={servicesRef} className="relative py-32 px-6 md:px-12 max-w-7xl mx-auto z-10">
         <div className="mb-20 text-center service-card">
-          <h2 className="text-4xl md:text-5xl font-semibold tracking-tight mb-6 text-slate-900">The Architecture of Time</h2>
+          <h2 className="kinetic-title text-4xl md:text-5xl font-semibold tracking-tight mb-6 text-slate-900">The Architecture of Time</h2>
           <p className="text-slate-500 max-w-xl mx-auto">We don't just write scripts. We deploy full-scale intelligent ecosystems designed for scale.</p>
         </div>
 
@@ -265,7 +286,7 @@ export default function App() {
                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-accent-secondary/30 bg-accent-secondary/10 text-accent-secondary text-xs font-semibold uppercase tracking-wider">
                   Featured Case Study
                </div>
-               <h2 className="text-5xl md:text-7xl font-bold tracking-tighter text-slate-900">MeatHead<span className="text-accent-primary">.ai</span></h2>
+               <h2 className="kinetic-title text-5xl md:text-7xl font-bold tracking-tighter text-slate-900">MeatHead<span className="text-accent-primary">.ai</span></h2>
                <p className="text-xl text-slate-600 leading-relaxed">
                   A full-stack Keto ecosystem. We built a custom "Recipe Genie" that dynamically generates meal plans based on user macros and inventory, syncing directly with grocery delivery APIs.
                </p>
@@ -342,12 +363,16 @@ export default function App() {
                </div>
             </div>
 
-            <div className="pt-20 flex justify-center">
-               <div className="glass-panel p-10 md:p-14 rounded-[3rem] bg-white/60 backdrop-blur-xl border border-slate-200 shadow-2xl max-w-4xl mx-auto">
-                 <p className="text-3xl md:text-5xl font-medium text-slate-900 leading-tight mb-8">
-                    "Your business should serve your life,<br /> not the other way around."
+            <div className="pt-20 flex justify-center text-center">
+               <div className="max-w-6xl mx-auto">
+                 <p className="text-5xl md:text-8xl font-black text-slate-900 leading-[0.9] mb-12 tracking-tighter drop-shadow-lg">
+                    "Your business should serve your life,
+                    <br />
+                    <span className="text-accent-primary">
+                      not the other way around."
+                    </span>
                  </p>
-                 <Button variant="glow" className="px-12 py-6 text-lg w-full md:w-auto">
+                 <Button variant="glow" className="px-16 py-8 text-xl shadow-2xl shadow-accent-primary/20 hover:shadow-accent-primary/40">
                     Book Your Transformation Audit
                  </Button>
                </div>

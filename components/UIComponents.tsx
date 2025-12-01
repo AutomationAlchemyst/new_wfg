@@ -63,13 +63,69 @@ export const Button: React.FC<ButtonProps> = ({ children, variant = 'primary', c
   );
 };
 
-export const Card: React.FC<{ children: React.ReactNode; className?: string; title?: string }> = ({ children, className = '', title }) => (
-  // Light Mode Card: White glass with subtle gray border
-  <div className={`glass-panel rounded-3xl p-8 hover:bg-white/80 transition-colors duration-500 border border-slate-200 group ${className}`}>
-    {title && <h3 className="text-slate-400 text-xs font-semibold uppercase tracking-widest mb-6">{title}</h3>}
-    {children}
-  </div>
-);
+export const Card: React.FC<{ children: React.ReactNode; className?: string; title?: string }> = ({ children, className = '', title }) => {
+  const cardRef = useRef<HTMLDivElement>(null);
+  const [rotation, setRotation] = useState({ x: 0, y: 0 });
+  const [glare, setGlare] = useState({ x: 50, y: 50, opacity: 0 });
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!cardRef.current) return;
+
+    const rect = cardRef.current.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    
+    // Calculate rotation (max +/- 10 degrees)
+    // xPct goes from -1 to 1
+    const xPct = (x / rect.width - 0.5) * 2;
+    const yPct = (y / rect.height - 0.5) * 2;
+
+    setRotation({
+      x: -yPct * 8, // Rotate X based on Y mouse movement (tilt up/down)
+      y: xPct * 8   // Rotate Y based on X mouse movement (tilt left/right)
+    });
+
+    // Calculate glare position (inverse)
+    setGlare({
+      x: (x / rect.width) * 100,
+      y: (y / rect.height) * 100,
+      opacity: 1
+    });
+  };
+
+  const handleMouseLeave = () => {
+    setRotation({ x: 0, y: 0 });
+    setGlare(prev => ({ ...prev, opacity: 0 }));
+  };
+
+  return (
+    // Light Mode Card: White glass with subtle gray border
+    <div 
+      ref={cardRef}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      style={{
+        transform: `perspective(1000px) rotateX(${rotation.x}deg) rotateY(${rotation.y}deg) scale3d(1, 1, 1)`,
+        transition: 'transform 0.1s ease-out'
+      }}
+      className={`glass-panel relative rounded-3xl p-8 hover:bg-white/80 transition-colors duration-500 border border-slate-200 group ${className} overflow-hidden`}
+    >
+      {/* Dynamic Glare Overlay */}
+      <div 
+        className="absolute inset-0 pointer-events-none z-50 mix-blend-overlay transition-opacity duration-500"
+        style={{
+          background: `radial-gradient(circle at ${glare.x}% ${glare.y}%, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0) 80%)`,
+          opacity: glare.opacity
+        }}
+      />
+      
+      <div className="relative z-10">
+        {title && <h3 className="text-slate-400 text-xs font-semibold uppercase tracking-widest mb-6">{title}</h3>}
+        {children}
+      </div>
+    </div>
+  );
+};
 
 export const RevealText: React.FC<{ children: React.ReactNode; delay?: number }> = ({ children, delay = 0 }) => {
   const [isVisible, setIsVisible] = useState(false);
