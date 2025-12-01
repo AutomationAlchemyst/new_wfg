@@ -78,6 +78,8 @@ const vertexShader = `
 const fragmentShader = `
   uniform float uTime;
   uniform vec2 uMouse;
+  uniform vec3 uThemeColor; // New Uniform
+  uniform float uThemeStrength; // 0 = Default, 1 = Theme Active
   
   varying vec2 vUv;
   varying float vElevation;
@@ -95,10 +97,13 @@ const fragmentShader = `
     float alpha = 1.0 - min(line * 0.8, 1.0);
     
     // Color: Darker Blueprint Blue
-    vec3 lineColor = vec3(0.05, 0.1, 0.4); // Much darker blue
+    vec3 baseColor = vec3(0.05, 0.1, 0.4); // Much darker blue
+    
+    // Mix in the Theme Color (Amber or Cyan)
+    vec3 lineColor = mix(baseColor, uThemeColor, uThemeStrength);
     
     // Elevation Coloring
-    // Peaks are lighter, valleys are deeper blue
+    // Peaks get slightly lighter
     lineColor = mix(lineColor, vec3(0.0, 0.4, 0.8), smoothstep(-1.0, 3.0, vElevation));
 
     // --- CURSOR HALO (New) ---
@@ -124,10 +129,47 @@ const fragmentShader = `
   }
 `;
 
-const Experience3D: React.FC = () => {
+interface Experience3DProps {
+  activeTheme?: 'left' | 'right' | null;
+}
+
+const Experience3D: React.FC<Experience3DProps> = ({ activeTheme }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const rendererRef = useRef<THREE.WebGLRenderer | null>(null);
   const materialRef = useRef<THREE.ShaderMaterial | null>(null);
+
+  // --- THEME ANIMATION LOGIC ---
+  useEffect(() => {
+    if (!materialRef.current) return;
+
+    let targetColor = new THREE.Color(0.05, 0.1, 0.4); // Default Blue
+    let strength = 0;
+
+    if (activeTheme === 'left') {
+      // Visionary (Ath) -> Warm Amber
+      targetColor = new THREE.Color(1.0, 0.6, 0.2); 
+      strength = 1;
+    } else if (activeTheme === 'right') {
+      // Architect (Hafiz) -> Cool Cyan
+      targetColor = new THREE.Color(0.0, 0.9, 1.0);
+      strength = 1;
+    }
+
+    gsap.to(materialRef.current.uniforms.uThemeColor.value, {
+      r: targetColor.r,
+      g: targetColor.g,
+      b: targetColor.b,
+      duration: 1.5,
+      ease: "power2.out"
+    });
+
+    gsap.to(materialRef.current.uniforms.uThemeStrength, {
+      value: strength,
+      duration: 1.5,
+      ease: "power2.out"
+    });
+
+  }, [activeTheme]);
 
   useEffect(() => {
     if (!containerRef.current) return;
@@ -161,7 +203,9 @@ const Experience3D: React.FC = () => {
         uTime: { value: 0 },
         uScroll: { value: 0 },
         uScrollVel: { value: 0 },
-        uMouse: { value: new THREE.Vector2(0.5, 0.5) }
+        uMouse: { value: new THREE.Vector2(0.5, 0.5) },
+        uThemeColor: { value: new THREE.Color(0.05, 0.1, 0.4) }, // Init default
+        uThemeStrength: { value: 0 }
       },
       transparent: true,
       side: THREE.DoubleSide,

@@ -14,6 +14,49 @@ const WFGLogo = ({ className = "w-8 h-8" }: { className?: string }) => (
   <img src={wfgLogo} alt="WorkFlowGuys Logo" className={`${className} object-contain rounded-sm`} />
 );
 
+// --- Velocity Timer Component ---
+const VelocityTimer = () => {
+  const [ms, setMs] = useState(0);
+  const [status, setStatus] = useState('IDLE');
+
+  useEffect(() => {
+    let interval: any;
+    
+    const runCycle = () => {
+      setStatus('RUNNING');
+      setMs(0);
+      const startTime = Date.now();
+      
+      interval = setInterval(() => {
+        const elapsed = Date.now() - startTime;
+        if (elapsed >= 495) {
+          setMs(495);
+          setStatus('DONE');
+          clearInterval(interval);
+          setTimeout(runCycle, 2000); // Pause before restarting
+        } else {
+          setMs(elapsed);
+        }
+      }, 10);
+    };
+
+    runCycle();
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <div className="flex flex-col items-center">
+      <div className="text-[10px] font-mono uppercase tracking-widest text-slate-400 mb-1 flex items-center gap-2">
+        <span className={`w-1.5 h-1.5 rounded-full ${status === 'RUNNING' ? 'bg-accent-secondary animate-pulse' : 'bg-green-500'}`}></span>
+        {status === 'RUNNING' ? 'PROCESSING...' : 'COMPLETE'}
+      </div>
+      <div className="font-mono text-5xl font-bold text-accent-primary tabular-nums tracking-tighter">
+        {ms}<span className="text-sm opacity-50 ml-1 text-slate-500 font-sans font-medium">ms</span>
+      </div>
+    </div>
+  );
+};
+
 // --- App ---
 export default function App() {
   const lenisRef = useRef<Lenis | null>(null);
@@ -123,7 +166,7 @@ export default function App() {
       <div className="noise-overlay"></div>
       
       {/* 3D Background */}
-      <Experience3D />
+      <Experience3D activeTheme={philosophyHover} />
       
       {/* --- Header --- */}
       <nav className="fixed top-0 left-0 w-full z-50 glass-panel-heavy px-6 md:px-12 py-4 flex justify-between items-center transition-all duration-300">
@@ -162,8 +205,8 @@ export default function App() {
 
           <div className="hero-anim">
             <RevealText delay={300}>
-              <h1 className="text-6xl md:text-9xl font-semibold tracking-tighter leading-[0.9] text-slate-900 pb-4 mix-blend-multiply">
-                Frenzy <span className="text-slate-400 italic font-light">to</span> Focus.
+              <h1 className="text-6xl md:text-9xl font-semibold tracking-tighter leading-[0.9] text-slate-900 pb-4">
+                <span className="glitch-text" data-text="Frenzy">Frenzy</span> <span className="text-slate-400 italic font-light">to</span> Focus.
               </h1>
             </RevealText>
           </div>
@@ -258,8 +301,8 @@ export default function App() {
                 <h3 className="text-2xl font-semibold text-slate-900">Instant Onboarding</h3>
                 <p className="text-slate-600 text-sm">Contract to Welcome Email in &lt;500ms. Perfect consistency, every single time.</p>
                 <div className="w-full h-px bg-slate-200 my-4"></div>
-                <div className="font-mono text-3xl font-bold text-accent-primary">100%</div>
-                <div className="text-xs uppercase tracking-widest text-slate-400">Accuracy</div>
+                <VelocityTimer />
+                <div className="text-xs uppercase tracking-widest text-slate-400 mt-2">Cycle Time</div>
              </div>
           </Card>
 
