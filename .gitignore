@@ -7,6 +7,10 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+<<<<<<< HEAD
+=======
+.env
+>>>>>>> 8de5465 (Initial commit: New WFG site with 3D background, EmailJS, and Cal.com integration)
 node_modules
 dist
 dist-ssr

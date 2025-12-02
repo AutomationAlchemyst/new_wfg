@@ -3,6 +3,7 @@ import Lenis from '@studio-freight/lenis';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Experience3D from './components/DitherShader';
+import ContactSection from './components/ContactSection';
 import { Button, Card, RevealText, DecryptText } from './components/UIComponents';
 import { ArrowRight, Play, Activity, Layers, Cpu, Zap, Lock, Mouse } from 'lucide-react';
 import wfgLogo from './assets/wfglogo.jpg';
@@ -172,16 +173,18 @@ export default function App() {
       <nav className="fixed top-0 left-0 w-full z-50 glass-panel-heavy px-6 md:px-12 py-4 flex justify-between items-center transition-all duration-300">
         <div className="flex items-center gap-3">
           <WFGLogo className="w-8 h-8" />
-          <span className="font-semibold tracking-tight text-lg text-slate-900">WorkFlowGuys</span>
+          <span className="font-display font-semibold tracking-tight text-lg text-slate-900">WorkFlowGuys</span>
         </div>
         <div className="hidden md:flex gap-8 text-sm font-medium text-slate-600">
           <a href="#services" className="hover:text-accent-primary transition-colors">Services</a>
           <a href="#case-study" className="hover:text-accent-primary transition-colors">Case Studies</a>
           <a href="#philosophy" className="hover:text-accent-primary transition-colors">Philosophy</a>
         </div>
-        <Button variant="secondary" className="!px-6 !py-2 !text-xs hidden md:flex !text-slate-800 !border-slate-200 hover:!bg-slate-100">
-          Audit Access
-        </Button>
+        <a href="#audit">
+          <Button variant="secondary" className="!px-6 !py-2 !text-xs hidden md:flex !text-slate-800 !border-slate-200 hover:!bg-slate-100">
+            Audit Access
+          </Button>
+        </a>
       </nav>
 
       {/* --- Hero Section --- */}
@@ -205,8 +208,8 @@ export default function App() {
 
           <div className="hero-anim">
             <RevealText delay={300}>
-              <h1 className="text-6xl md:text-9xl font-semibold tracking-tighter leading-[0.9] text-slate-900 pb-4">
-                <span className="glitch-text" data-text="Frenzy">Frenzy</span> <span className="text-slate-400 italic font-light">to</span> Focus.
+              <h1 className="font-display text-6xl md:text-9xl font-semibold tracking-tighter leading-[0.9] text-slate-900 pb-4">
+                <span className="glitch-text" data-text="Frenzy">Frenzy</span> <span className="text-slate-400 italic font-light font-sans">to</span> Focus.
               </h1>
             </RevealText>
           </div>
@@ -223,9 +226,11 @@ export default function App() {
           <div className="hero-anim pointer-events-auto">
             <RevealText delay={700}>
               <div className="flex flex-col md:flex-row gap-4 justify-center items-center mt-8">
-                <Button variant="primary">
-                  Start Transformation <ArrowRight className="w-4 h-4" />
-                </Button>
+                <a href="#audit">
+                  <Button variant="primary">
+                    Start Transformation <ArrowRight className="w-4 h-4" />
+                  </Button>
+                </a>
                 <span className="text-slate-400 text-sm">or</span>
                 <button className="flex items-center gap-3 text-slate-600 hover:text-accent-primary transition-colors group">
                   <div className="w-10 h-10 rounded-full border border-slate-300 flex items-center justify-center group-hover:bg-slate-100 transition-all bg-white shadow-sm">
@@ -271,7 +276,7 @@ export default function App() {
       {/* --- Services (Bento Grid) --- */}
       <section id="services" ref={servicesRef} className="relative py-32 px-6 md:px-12 max-w-7xl mx-auto z-10">
         <div className="mb-20 text-center service-card">
-          <h2 className="kinetic-title text-4xl md:text-5xl font-semibold tracking-tight mb-6 text-slate-900">The Architecture of Time</h2>
+          <h2 className="font-display kinetic-title text-4xl md:text-5xl font-semibold tracking-tight mb-6 text-slate-900">The Architecture of Time</h2>
           <p className="text-slate-500 max-w-xl mx-auto">We don't just write scripts. We deploy full-scale intelligent ecosystems designed for scale.</p>
         </div>
 
@@ -281,7 +286,7 @@ export default function App() {
             <div className="absolute inset-0 bg-gradient-to-br from-accent-primary/5 to-transparent pointer-events-none"></div>
             <div className="relative z-10 h-full flex flex-col justify-between">
                <div>
-                  <h3 className="text-3xl font-semibold mb-4 text-slate-900">Lead Processing Node</h3>
+                  <h3 className="font-display text-3xl font-semibold mb-4 text-slate-900">Lead Processing Node</h3>
                   <p className="text-slate-600 text-lg max-w-md">Autonomous sorting, qualification, and nurturing of prospects using advanced NLP models. Zero latency.</p>
                </div>
                <div className="flex gap-4 mt-8">
@@ -298,7 +303,7 @@ export default function App() {
                 <div className="w-20 h-20 rounded-2xl bg-gradient-to-tr from-accent-secondary/20 to-accent-primary/20 flex items-center justify-center shadow-lg shadow-accent-primary/10">
                    <Zap className="w-10 h-10 text-accent-primary" />
                 </div>
-                <h3 className="text-2xl font-semibold text-slate-900">Instant Onboarding</h3>
+                <h3 className="font-display text-2xl font-semibold text-slate-900">Instant Onboarding</h3>
                 <p className="text-slate-600 text-sm">Contract to Welcome Email in &lt;500ms. Perfect consistency, every single time.</p>
                 <div className="w-full h-px bg-slate-200 my-4"></div>
                 <VelocityTimer />
@@ -309,14 +314,14 @@ export default function App() {
           {/* Regular Card */}
           <Card className="service-card bg-white/40 border-slate-200" title="Custom Development">
              <Layers className="w-10 h-10 text-slate-800 mb-6" />
-             <h3 className="text-xl font-semibold mb-2 text-slate-900">Bespoke App Dev</h3>
+             <h3 className="font-display text-xl font-semibold mb-2 text-slate-900">Bespoke App Dev</h3>
              <p className="text-slate-600 text-sm">Full-stack applications wrapped around LLMs to solve niche operational bottlenecks.</p>
           </Card>
 
           {/* Regular Card */}
           <Card className="service-card bg-white/40 border-slate-200" title="Security">
              <Lock className="w-10 h-10 text-slate-800 mb-6" />
-             <h3 className="text-xl font-semibold mb-2 text-slate-900">Enterprise Grade</h3>
+             <h3 className="font-display text-xl font-semibold mb-2 text-slate-900">Enterprise Grade</h3>
              <p className="text-slate-600 text-sm">Bank-level encryption and data handling. Your proprietary data remains yours.</p>
           </Card>
         </div>
@@ -329,7 +334,7 @@ export default function App() {
                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-accent-secondary/30 bg-accent-secondary/10 text-accent-secondary text-xs font-semibold uppercase tracking-wider">
                   Featured Case Study
                </div>
-               <h2 className="kinetic-title text-5xl md:text-7xl font-bold tracking-tighter text-slate-900">MeatHead<span className="text-accent-primary">.ai</span></h2>
+               <h2 className="font-display kinetic-title text-5xl md:text-7xl font-bold tracking-tighter text-slate-900">MeatHead<span className="text-accent-primary">.ai</span></h2>
                <p className="text-xl text-slate-600 leading-relaxed">
                   A full-stack Keto ecosystem. We built a custom "Recipe Genie" that dynamically generates meal plans based on user macros and inventory, syncing directly with grocery delivery APIs.
                </p>
@@ -377,7 +382,7 @@ export default function App() {
          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[300px] bg-accent-secondary/10 blur-[150px] rounded-full -z-10 pointer-events-none"></div>
          
          <div className="max-w-4xl mx-auto space-y-16">
-            <h2 className="text-4xl md:text-6xl font-medium tracking-tight text-slate-900">The Dual Core Processor</h2>
+            <h2 className="font-display text-4xl md:text-6xl font-medium tracking-tight text-slate-900">The Dual Core Processor</h2>
             
             <div 
               className="grid grid-cols-1 md:grid-cols-2 gap-12 text-left"
@@ -389,7 +394,7 @@ export default function App() {
                >
                  <Card className="hover:border-accent-primary/50 transition-colors bg-white/40 border-slate-200 h-full shadow-sm hover:shadow-md">
                     <div className="text-xs font-bold text-accent-primary uppercase tracking-widest mb-4">Visionary</div>
-                    <h3 className="text-3xl font-semibold mb-2 text-slate-900">Ath Thaariq</h3>
+                    <h3 className="font-display text-3xl font-semibold mb-2 text-slate-900">Ath Thaariq</h3>
                     <p className="text-slate-600">The Architect of "Why". Ensuring every automated action serves a distinctly human purpose. Technology is the lever for freedom.</p>
                  </Card>
                </div>
@@ -400,7 +405,7 @@ export default function App() {
                >
                  <Card className="hover:border-accent-secondary/50 transition-colors bg-white/40 border-slate-200 h-full shadow-sm hover:shadow-md">
                     <div className="text-xs font-bold text-accent-secondary uppercase tracking-widest mb-4">Architect</div>
-                    <h3 className="text-3xl font-semibold mb-2 text-slate-900">Hafiz</h3>
+                    <h3 className="font-display text-3xl font-semibold mb-2 text-slate-900">Hafiz</h3>
                     <p className="text-slate-600">The Engineer of "How". Building redundant, bulletproof systems. If it breaks, it wasn't automated correctly.</p>
                  </Card>
                </div>
@@ -408,20 +413,25 @@ export default function App() {
 
             <div className="pt-20 flex justify-center text-center">
                <div className="max-w-6xl mx-auto">
-                 <p className="text-5xl md:text-8xl font-black text-slate-900 leading-[0.9] mb-12 tracking-tighter drop-shadow-lg">
+                 <p className="font-display text-5xl md:text-8xl font-black text-slate-900 leading-[0.9] mb-12 tracking-tighter drop-shadow-lg">
                     "Your business should serve your life,
                     <br />
                     <span className="text-accent-primary">
                       not the other way around."
                     </span>
                  </p>
-                 <Button variant="glow" className="px-16 py-8 text-xl shadow-2xl shadow-accent-primary/20 hover:shadow-accent-primary/40">
-                    Book Your Transformation Audit
-                 </Button>
+                 <a href="#audit">
+                   <Button variant="glow" className="px-16 py-8 text-xl shadow-2xl shadow-accent-primary/20 hover:shadow-accent-primary/40">
+                      Book Your Transformation Audit
+                   </Button>
+                 </a>
                </div>
             </div>
          </div>
       </section>
+
+      {/* --- Contact / Audit Section --- */}
+      <ContactSection />
 
       {/* --- Footer --- */}
       <footer className="py-12 px-6 border-t border-slate-200 bg-white z-10 relative">

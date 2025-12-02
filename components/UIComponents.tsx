@@ -14,7 +14,7 @@ export const Button: React.FC<ButtonProps> = ({ children, variant = 'primary', c
   
   const variants = {
     // Gradient Glow Button (Light Mode: Dark bg with glow)
-    primary: "bg-slate-900 text-white hover:shadow-[0_0_40px_rgba(37,99,235,0.3)] hover:scale-105",
+    primary: "bg-slate-900 text-white hover:shadow-[0_10px_40px_-10px_rgba(37,99,235,0.5)] hover:scale-105",
     // Glass Button (Light Mode: White glass)
     secondary: "bg-white/80 border border-slate-200 text-slate-800 hover:bg-white hover:border-slate-300 backdrop-blur-md",
     // Brand Glow
@@ -120,7 +120,7 @@ export const Card: React.FC<{ children: React.ReactNode; className?: string; tit
       />
       
       <div className="relative z-10">
-        {title && <h3 className="text-slate-400 text-xs font-semibold uppercase tracking-widest mb-6">{title}</h3>}
+        {title && <h3 className="font-display text-slate-400 text-xs font-semibold uppercase tracking-widest mb-6">{title}</h3>}
         {children}
       </div>
     </div>

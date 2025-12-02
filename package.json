@@ -9,12 +9,14 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "react": "^19.2.0",
-    "lucide-react": "^0.555.0",
-    "three": "^0.181.2",
-    "react-dom": "^19.2.0",
+    "@calcom/embed-react": "^1.5.3",
+    "@emailjs/browser": "^4.4.1",
     "@studio-freight/lenis": "^1.0.42",
-    "gsap": "^3.13.0"
+    "gsap": "^3.13.0",
+    "lucide-react": "^0.555.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "three": "^0.181.2"
   },
   "devDependencies": {
     "@types/node": "^22.14.0",

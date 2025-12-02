@@ -11,7 +11,7 @@ const vertexShader = `
   uniform float uTime;
   uniform float uScroll;     // 0 = Top, 1 = Bottom
   uniform float uScrollVel;  // Velocity of scroll for "warp" effect
-  uniform vec2 uMouse;
+  uniform vec2 uMouseWorld;  // World Space Mouse Position
   
   varying vec2 vUv;
   varying float vElevation;
@@ -52,17 +52,15 @@ const vertexShader = `
     
     // 1. Grid Movement
     // The grid moves "forward" constantly, plus scroll influence
-    float moveSpeed = uTime * 0.1 + uScroll * 2.0;
+    float moveSpeed = uTime * 0.2 + uScroll * 2.0;
     
     // 2. Elevation Logic
     
     // A. Base Rolling Hills (Low frequency)
     float terrain = snoise(vec2(pos.x * 0.2, pos.y * 0.2 - moveSpeed)) * 1.5;
     
-    // B. Interaction Ripple (Mouse)
-    // Map mouse -1 to 1 space to world space approx
-    vec2 mouseWorld = (uMouse - 0.5) * 20.0; 
-    float dist = distance(pos.xy, mouseWorld);
+    // B. Interaction Ripple (Mouse) - Uses World Space now
+    float dist = distance(pos.xy, uMouseWorld);
     float mouseInteract = smoothstep(5.0, 0.0, dist) * -2.0; // Push down
     
     // C. Velocity Warp (The faster you scroll, the more it stretches)
@@ -77,7 +75,7 @@ const vertexShader = `
 
 const fragmentShader = `
   uniform float uTime;
-  uniform vec2 uMouse;
+  uniform vec2 uMouseWorld;
   uniform vec3 uThemeColor; // New Uniform
   uniform float uThemeStrength; // 0 = Default, 1 = Theme Active
   
@@ -94,7 +92,7 @@ const fragmentShader = `
     
     // Anti-aliased thicker lines
     // We multiply line by 0.5 to make the "gap" smaller -> thicker lines
-    float alpha = 1.0 - min(line * 0.8, 1.0);
+    float alpha = 1.0 - min(line * 0.5, 1.0);
     
     // Color: Darker Blueprint Blue
     vec3 baseColor = vec3(0.05, 0.1, 0.4); // Much darker blue
@@ -107,11 +105,13 @@ const fragmentShader = `
     lineColor = mix(lineColor, vec3(0.0, 0.4, 0.8), smoothstep(-1.0, 3.0, vElevation));
 
     // --- CURSOR HALO (New) ---
-    // Map uMouse (0-1) to UV space for distance calc
-    float mouseDist = distance(vUv, uMouse);
+    // We can't use UV distance for world mouse easily without passing more data.
+    // But we have vElevation which is affected by mouse!
+    // Let's use the depression in the grid to light it up.
     
-    // Create a glow radius (approx 0.15 of screen width)
-    float mouseGlow = smoothstep(0.15, 0.0, mouseDist);
+    // If elevation is pushed down (negative), it's the mouse ripple.
+    // -2.0 is max depth. 
+    float mouseGlow = smoothstep(-0.5, -2.0, vElevation);
     
     // Brand Yellow / Warm Gold for the "Human Spark"
     vec3 glowColor = vec3(1.0, 0.8, 0.2); 
@@ -173,6 +173,8 @@ const Experience3D: React.FC<Experience3DProps> = ({ activeTheme }) => {
 
   useEffect(() => {
     if (!containerRef.current) return;
+    
+    console.log("DitherShader mounted");
 
     // --- SETUP ---
     const scene = new THREE.Scene();
@@ -194,7 +196,7 @@ const Experience3D: React.FC<Experience3DProps> = ({ activeTheme }) => {
 
     // --- PLANE GEOMETRY ---
     // Large plane, lots of segments for smooth waves
-    const geometry = new THREE.PlaneGeometry(20, 20, 128, 128);
+    const geometry = new THREE.PlaneGeometry(20, 20, 80, 80);
     
     const material = new THREE.ShaderMaterial({
       vertexShader,
@@ -203,7 +205,7 @@ const Experience3D: React.FC<Experience3DProps> = ({ activeTheme }) => {
         uTime: { value: 0 },
         uScroll: { value: 0 },
         uScrollVel: { value: 0 },
-        uMouse: { value: new THREE.Vector2(0.5, 0.5) },
+        uMouseWorld: { value: new THREE.Vector2(1000, 1000) }, // Init off-screen
         uThemeColor: { value: new THREE.Color(0.05, 0.1, 0.4) }, // Init default
         uThemeStrength: { value: 0 }
       },
@@ -219,9 +221,20 @@ const Experience3D: React.FC<Experience3DProps> = ({ activeTheme }) => {
     // Our camera setup handles the angle.
     scene.add(mesh);
 
+    // --- INTERACTION UTILS ---
+    const raycaster = new THREE.Raycaster();
+    const pointer = new THREE.Vector2(-100, -100); // normalized device coordinates
+    // Create an infinite plane at Z=0 for stable raycasting (Normal points up Z)
+    const interactionPlane = new THREE.Plane(new THREE.Vector3(0, 0, 1), 0);
+    const intersectionPoint = new THREE.Vector3();
+
     // --- ANIMATION ---
     const clock = new THREE.Clock();
     let lastScrollY = window.scrollY;
+    
+    // Target world mouse position for smoothing
+    const targetMouseWorld = new THREE.Vector2(1000, 1000);
+    let frameCount = 0;
 
     const animate = () => {
       const time = clock.getElapsedTime();
@@ -230,6 +243,14 @@ const Experience3D: React.FC<Experience3DProps> = ({ activeTheme }) => {
       const currentScrollY = window.scrollY;
       const velocity = (currentScrollY - lastScrollY) * 0.001;
       lastScrollY = currentScrollY;
+
+      // Raycasting for Mouse Interaction
+      raycaster.setFromCamera(pointer, camera);
+      
+      // Intersect with the mathematical plane instead of the mesh for stability
+      if (raycaster.ray.intersectPlane(interactionPlane, intersectionPoint)) {
+         targetMouseWorld.set(intersectionPoint.x, intersectionPoint.y);
+      }
 
       // Smoothly dampen velocity uniform
       if (materialRef.current) {
@@ -241,6 +262,16 @@ const Experience3D: React.FC<Experience3DProps> = ({ activeTheme }) => {
             velocity,
             0.1
          );
+
+         // Smoothly interpolate mouse position (World Space)
+         materialRef.current.uniforms.uMouseWorld.value.lerp(targetMouseWorld, 0.1);
+
+         // Debug log every ~1 second
+         frameCount++;
+         if (frameCount % 60 === 0) {
+            // console.log("Pointer NDC:", pointer.x.toFixed(2), pointer.y.toFixed(2));
+            // console.log("Target World:", targetMouseWorld.x.toFixed(2), targetMouseWorld.y.toFixed(2));
+         }
       }
 
       renderer.render(scene, camera);
@@ -252,7 +283,8 @@ const Experience3D: React.FC<Experience3DProps> = ({ activeTheme }) => {
     // We map page scroll 0-1 to shader
     const handleScroll = () => {
        const maxScroll = document.body.scrollHeight - window.innerHeight;
-       const scroll = window.scrollY / maxScroll;
+       const scroll = maxScroll > 0 ? window.scrollY / maxScroll : 0;
+       
        if(materialRef.current) {
           materialRef.current.uniforms.uScroll.value = scroll;
        }
@@ -261,15 +293,9 @@ const Experience3D: React.FC<Experience3DProps> = ({ activeTheme }) => {
 
     // --- MOUSE SYNC ---
     const handleMouseMove = (e: MouseEvent) => {
-      if(materialRef.current) {
-        const x = e.clientX / window.innerWidth;
-        const y = 1.0 - (e.clientY / window.innerHeight); // Flip Y for Three.js
-        gsap.to(materialRef.current.uniforms.uMouse.value, {
-          x: x,
-          y: y,
-          duration: 0.5
-        });
-      }
+      // Calculate Normalized Device Coordinates (-1 to +1)
+      pointer.x = (e.clientX / window.innerWidth) * 2 - 1;
+      pointer.y = -(e.clientY / window.innerHeight) * 2 + 1;
     };
     window.addEventListener('mousemove', handleMouseMove);
 
