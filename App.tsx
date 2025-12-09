@@ -3,6 +3,7 @@ import Lenis from '@studio-freight/lenis';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Experience3D from './components/DitherShader';
+import WhatsAppWidget from './components/WhatsAppWidget';
 import ContactSection from './components/ContactSection';
 import { Button, Card, RevealText, DecryptText } from './components/UIComponents';
 import { ArrowRight, Play, Activity, Layers, Cpu, Zap, Lock, Mouse } from 'lucide-react';
@@ -447,6 +448,9 @@ export default function App() {
             </div>
          </div>
       </footer>
+
+      {/* --- Global Widgets --- */}
+      <WhatsAppWidget />
     </div>
   );
 }
