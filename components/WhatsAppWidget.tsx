@@ -81,7 +81,7 @@ export const WhatsAppWidget = () => {
               Start Chat <Send size={16} />
             </a>
             <div className="text-center mt-2">
-               <span className="text-[10px] text-slate-400">Powered by Unipile</span>
+               <span className="text-[10px] text-slate-400">Powered by WorkFlowGuys</span>
             </div>
           </div>
         </div>
