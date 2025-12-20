@@ -1,178 +1,148 @@
 <!DOCTYPE html>
-<html lang="en" class="antialiased bg-[#F8F9FA] text-[#030014] overflow-y-auto">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>WorkFlowGuys | Intelligent Systems</title>
-    <meta name="description" content="We replace frenzy with focus. WorkFlowGuys builds intelligent AI systems and custom apps to automate busywork for growing businesses." />
-    
-    <!-- Fonts: Inter & Space Grotesk -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            colors: {
-              'void': '#F8F9FA', // Light Gray/White
-              'glass': 'rgba(0, 0, 0, 0.05)', // Dark glass for light mode
-              'glass-hover': 'rgba(0, 0, 0, 0.08)',
-              'accent-primary': '#2563EB', // Stronger Blue for contrast
-              'accent-secondary': '#D97706', // Darker Yellow/Amber for contrast
-              'accent-glow': '#2563EB', 
-            },
-            fontFamily: {
-              sans: ['Inter', 'sans-serif'],
-              display: ['Space Grotesk', 'sans-serif'],
-            },
-            backgroundImage: {
-              'aurora': 'radial-gradient(circle at 50% 50%, rgba(37, 99, 235, 0.05) 0%, rgba(248, 249, 250, 0) 50%)',
-              'gradient-text': 'linear-gradient(135deg, #030014 0%, #475569 100%)', // Dark text gradient
-            },
-            animation: {
-              'float': 'float 6s ease-in-out infinite',
-              'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-            },
-            keyframes: {
-              float: {
-                '0%, 100%': { transform: 'translateY(0)' },
-                '50%': { transform: 'translateY(-20px)' },
-              }
+<html lang="en" class="antialiased bg-[#030014] text-white overflow-y-auto">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WorkFlowGuys | Intelligent AI Automation & Custom Systems</title>
+  <meta name="description"
+    content="WorkFlowGuys builds premium AI automation systems and custom software to eliminate busywork. Transform your business from chaos to calm with intelligent workflows." />
+  <meta name="keywords"
+    content="AI Automation, Workflow Optimization, Business Process Automation, Custom Software Development, AI Solutions Singapore, Intelligent Systems, WorkFlowGuys" />
+  <link rel="canonical" href="https://theworkflowguys.com" />
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://theworkflowguys.com" />
+  <meta property="og:title" content="WorkFlowGuys | Intelligent AI Automation Systems" />
+  <meta property="og:description"
+    content="We replace frenzy with focus. WorkFlowGuys builds intelligent AI systems to automate busywork for growing businesses." />
+  <meta property="og:image" content="https://theworkflowguys.com/og-image.jpg" />
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image" />
+  <meta property="twitter:url" content="https://theworkflowguys.com" />
+  <meta property="twitter:title" content="WorkFlowGuys | Intelligent AI Automation Systems" />
+  <meta property="twitter:description"
+    content="We replace frenzy with focus. WorkFlowGuys builds intelligent AI systems to automate busywork for growing businesses." />
+  <meta property="twitter:image" content="https://theworkflowguys.com/og-image.jpg" />
+
+  <!-- Structured Data (JSON-LD) -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "WorkFlowGuys",
+      "url": "https://theworkflowguys.com",
+      "logo": "https://theworkflowguys.com/logo.jpg",
+      "description": "Intelligent AI automation systems and custom software development for growing businesses.",
+      "address": {
+        "@type": "PostalAddress",
+        "addressCountry": "Singapore"
+      },
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "email": "contact@theworkflowguys.com",
+        "contactType": "customer service"
+      },
+      "sameAs": [
+        "https://www.instagram.com/theworkflowguys",
+        "https://www.facebook.com/theworkflowguys"
+      ]
+    }
+  </script>
+
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Service",
+      "serviceType": "AI Automation & Workflow Optimization",
+      "provider": {
+        "@type": "Organization",
+        "name": "WorkFlowGuys"
+      },
+      "areaServed": "Global",
+      "description": "We design and implement custom AI-driven automation systems to streamline business operations and increase efficiency."
+    }
+  </script>
+
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "How does AI automation improve my business ROI?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "AI automation increases ROI by reducing manual labor costs, eliminating human error, and accelerating response times. Our clients typically see a significant reduction in operational overhead within the first 90 days."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is my business data safe with your AI systems?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. We prioritize data security and privacy. All our custom AI solutions use enterprise-grade encryption and comply with global data protection standards. Your data is never used to train public models."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Will your automation tools work with my existing software?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Absolutely. We specialize in seamless integrations. Our systems connect with popular CRMs, email platforms, and project management tools like Salesforce, HubSpot, Slack, and more via secure APIs."
+          }
+        }
+      ]
+    }
+  </script>
+
+  <!-- Fonts: Inter & Space Grotesk -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'void': '#030014', // Deep Space
+            'glass': 'rgba(255, 255, 255, 0.03)',
+            'glass-hover': 'rgba(255, 255, 255, 0.08)',
+            'accent-primary': '#3B82F6', // Electric Blue
+            'accent-secondary': '#06B6D4', // Cyan
+            'accent-glow': '#3B82F6',
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            display: ['Outfit', 'sans-serif'],
+          },
+          backgroundImage: {
+            'aurora': 'radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.15) 0%, rgba(3, 0, 20, 0) 60%)',
+            'gradient-text': 'linear-gradient(135deg, #FFFFFF 0%, #94A3B8 100%)',
+          },
+          animation: {
+            'float': 'float 6s ease-in-out infinite',
+            'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+          },
+          keyframes: {
+            float: {
+              '0%, 100%': { transform: 'translateY(0)' },
+              '50%': { transform: 'translateY(-20px)' },
             }
           }
         }
       }
-    </script>
-    
-    <style>
-      body {
-        margin: 0;
-        padding: 0;
-        overflow-x: hidden;
-        background-color: #F8F9FA;
-        color: #030014;
-      }
-      
-      /* Lenis Scroll Setup */
-      html.lenis, html.lenis body {
-        height: auto;
-      }
-      .lenis.lenis-smooth {
-        scroll-behavior: auto !important;
-      }
-      .lenis.lenis-smooth [data-lenis-prevent] {
-        overscroll-behavior: contain;
-      }
-      .lenis.lenis-stopped {
-        overflow: hidden;
-      }
-      
-      /* Neo-Modern Utilities (Light Mode) */
-      .glass-panel {
-        background: rgba(255, 255, 255, 0.6);
-        backdrop-filter: blur(20px);
-        -webkit-backdrop-filter: blur(20px);
-        border: 1px solid rgba(0, 0, 0, 0.05);
-        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
-      }
-      
-      .glass-panel-heavy {
-        background: rgba(255, 255, 255, 0.8);
-        backdrop-filter: blur(40px);
-        -webkit-backdrop-filter: blur(40px);
-        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-      }
-      
-      .noise-overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        pointer-events: none;
-        z-index: 9999;
-        opacity: 0.04;
-        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-        mix-blend-mode: multiply; /* Better for light mode */
-      }
+    }
+  </script>
 
-      .text-glow {
-        text-shadow: 0 0 40px rgba(37, 99, 235, 0.2); /* Blue glow */
-      }
-      
-      .accent-glow {
-        text-shadow: 0 0 20px rgba(37, 99, 235, 0.4);
-      }
-
-      /* Custom Scrollbar */
-      ::-webkit-scrollbar {
-        width: 8px;
-      }
-      ::-webkit-scrollbar-track {
-        background: #F8F9FA; 
-      }
-      ::-webkit-scrollbar-thumb {
-        background: #cbd5e1; 
-        border-radius: 4px;
-        border: 2px solid #F8F9FA;
-      }
-      ::-webkit-scrollbar-thumb:hover {
-        background: #94a3b8; 
-      }
-
-      /* --- GLITCH EFFECT --- */
-      .glitch-text {
-        position: relative;
-        display: inline-block;
-      }
-      .glitch-text::before,
-      .glitch-text::after {
-        content: attr(data-text);
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: #F8F9FA; /* Matches body bg to hide main text */
-      }
-      .glitch-text::before {
-        left: 2px;
-        text-shadow: -1px 0 #ef4444; /* Red shadow */
-        clip: rect(44px, 450px, 56px, 0);
-        animation: glitch-anim-1 5s infinite linear alternate-reverse;
-      }
-      .glitch-text::after {
-        left: -2px;
-        text-shadow: -1px 0 #3b82f6; /* Blue shadow */
-        clip: rect(44px, 450px, 56px, 0);
-        animation: glitch-anim-2 5s infinite linear alternate-reverse;
-      }
-
-      @keyframes glitch-anim-1 {
-        0% { clip: rect(30px, 9999px, 10px, 0); transform: skew(0.85deg); }
-        5% { clip: rect(70px, 9999px, 90px, 0); transform: skew(0.85deg); }
-        10% { clip: rect(15px, 9999px, 80px, 0); transform: skew(0.02deg); }
-        15% { clip: rect(50px, 9999px, 20px, 0); transform: skew(0.3deg); }
-        20% { clip: rect(10px, 9999px, 100px, 0); transform: skew(0.1deg); }
-        25% { clip: rect(90px, 9999px, 30px, 0); transform: skew(0.65deg); }
-        30% { clip: rect(20px, 9999px, 60px, 0); transform: skew(0.35deg); }
-        100% { clip: rect(60px, 9999px, 40px, 0); transform: skew(0.01deg); }
-      }
-      @keyframes glitch-anim-2 {
-        0% { clip: rect(10px, 9999px, 90px, 0); transform: skew(-0.8deg); }
-        5% { clip: rect(90px, 9999px, 10px, 0); transform: skew(-0.8deg); }
-        10% { clip: rect(20px, 9999px, 60px, 0); transform: skew(-0.2deg); }
-        15% { clip: rect(80px, 9999px, 20px, 0); transform: skew(-0.3deg); }
-        20% { clip: rect(10px, 9999px, 80px, 0); transform: skew(-0.1deg); }
-        25% { clip: rect(40px, 9999px, 90px, 0); transform: skew(-0.6deg); }
-        30% { clip: rect(50px, 9999px, 10px, 0); transform: skew(-0.2deg); }
-        100% { clip: rect(30px, 9999px, 70px, 0); transform: skew(-0.1deg); }
-      }
-    </style>
   <script type="importmap">
 {
   "imports": {
@@ -187,10 +157,12 @@
   }
 }
 </script>
-<link rel="stylesheet" href="/index.css">
+  <link rel="stylesheet" href="/index.css">
 </head>
-  <body>
-    <div id="root"></div>
+
+<body>
+  <div id="root"></div>
   <script type="module" src="/index.tsx"></script>
 </body>
+
 </html>
