@@ -193,22 +193,39 @@ export default function App() {
         >
           {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
-
-        {/* Mobile Menu Overlay */}
-        <div className={`fixed inset-0 bg-void/95 backdrop-blur-xl z-40 flex flex-col items-center justify-center gap-8 transition-all duration-500 ${isMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}>
-          <a href="#services" onClick={() => setIsMenuOpen(false)} className="text-2xl font-display font-bold text-white hover:text-accent-primary transition-colors">Services</a>
-          <a href="#process" onClick={() => setIsMenuOpen(false)} className="text-2xl font-display font-bold text-white hover:text-accent-primary transition-colors">Process</a>
-          <a href="#roi" onClick={() => setIsMenuOpen(false)} className="text-2xl font-display font-bold text-white hover:text-accent-primary transition-colors">ROI</a>
-          <a href="#case-study" onClick={() => setIsMenuOpen(false)} className="text-2xl font-display font-bold text-white hover:text-accent-primary transition-colors">Case Study</a>
-          <a href="#philosophy" onClick={() => setIsMenuOpen(false)} className="text-2xl font-display font-bold text-white hover:text-accent-primary transition-colors">Team</a>
-          <a href="#faq" onClick={() => setIsMenuOpen(false)} className="text-2xl font-display font-bold text-white hover:text-accent-primary transition-colors">FAQ</a>
-          <a href="#audit" onClick={() => setIsMenuOpen(false)}>
-            <Button variant="glow" className="!px-8 !py-4 !text-lg">
-              Audit Access
-            </Button>
-          </a>
-        </div>
       </nav>
+
+      {/* Mobile Menu Overlay */}
+      <div className={`fixed inset-0 bg-[#030014] z-[60] flex flex-col items-center justify-start pt-32 pb-12 gap-6 overflow-y-auto transition-all duration-500 ${isMenuOpen ? 'opacity-100 pointer-events-auto translate-y-0' : 'opacity-0 pointer-events-none -translate-y-4'}`}>
+        {[
+          { href: "#services", label: "Services" },
+          { href: "#process", label: "Process" },
+          { href: "#roi", label: "ROI" },
+          { href: "#case-study", label: "Case Study" },
+          { href: "#philosophy", label: "Team" },
+          { href: "#faq", label: "FAQ" }
+        ].map((item, index) => (
+          <a
+            key={item.href}
+            href={item.href}
+            onClick={() => setIsMenuOpen(false)}
+            className={`text-2xl font-display font-bold text-white hover:text-accent-primary transition-all duration-300 transform ${isMenuOpen ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}`}
+            style={{ transitionDelay: `${index * 50 + 100}ms` }}
+          >
+            {item.label}
+          </a>
+        ))}
+        <a
+          href="#audit"
+          onClick={() => setIsMenuOpen(false)}
+          className={`mt-4 transform transition-all duration-500 ${isMenuOpen ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}`}
+          style={{ transitionDelay: '450ms' }}
+        >
+          <Button variant="glow" className="!px-10 !py-4 !text-xl">
+            Audit Access
+          </Button>
+        </a>
+      </div>
 
       <main id="main-content">
         <Hero heroRef={heroRef} />
@@ -260,6 +277,6 @@ export default function App() {
           </div>
         </div>
       </footer>
-    </div>
+    </div >
   );
 }
