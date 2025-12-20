@@ -197,6 +197,13 @@ export default function App() {
 
       {/* Mobile Menu Overlay */}
       <div className={`fixed inset-0 bg-[#030014] z-[60] flex flex-col items-center justify-start pt-32 pb-12 gap-6 overflow-y-auto transition-all duration-500 ${isMenuOpen ? 'opacity-100 pointer-events-auto translate-y-0' : 'opacity-0 pointer-events-none -translate-y-4'}`}>
+        <button
+          onClick={() => setIsMenuOpen(false)}
+          className="absolute top-6 right-6 text-white p-2 hover:bg-white/10 rounded-full transition-all duration-300"
+          aria-label="Close menu"
+        >
+          <X size={28} />
+        </button>
         {[
           { href: "#services", label: "Services" },
           { href: "#process", label: "Process" },
